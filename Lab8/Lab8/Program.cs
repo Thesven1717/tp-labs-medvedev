@@ -44,15 +44,16 @@ Console.WriteLine($"Медианная сумма: {sorted[sorted.Count / 2]} ({
 
 // Сумма покупок каждого покупателя
 sw.Restart();
+var sums = new Dictionary<string, long>();
+for (int i = 0; i < buyers.Count; i++)
+{
+    if (!sums.ContainsKey(buyers[i]))
+        sums[buyers[i]] = 0;
+    sums[buyers[i]] += amounts[i];
+}
+
 var totals = new List<(string Buyer, long Total)>();
 foreach (string b in unique)
-{
-    long total = 0;
-    for (int i = 0; i < buyers.Count; i++)
-        if (buyers[i] == b)
-            total += amounts[i];
-    totals.Add((b, total));
-}
-Console.WriteLine($"Максимум потратил: {totals.MaxBy(t => t.Total).Buyer} ({sw.ElapsedMilliseconds} мс)");
+    totals.Add((b, sums[b]));
 
-Console.WriteLine($"итого: {swTotal.ElapsedMilliseconds} мс");
+Console.WriteLine($"Максимум потратил: {totals.MaxBy(t => t.Total).Buyer} ({sw.ElapsedMilliseconds} мс)");
