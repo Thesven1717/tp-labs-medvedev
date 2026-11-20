@@ -18,9 +18,10 @@ for (int i = 0; i < N; i++)
 // Список уникальных покупателей
 var sw = Stopwatch.StartNew();
 var unique = new List<string>();
+var seen = new HashSet<string>();
 for (int i = 0; i < buyers.Count; i++)
 {
-    if (!unique.Contains(buyers[i]))
+    if (seen.Add(buyers[i]))
         unique.Add(buyers[i]);
 }
 Console.WriteLine($"Уникальных покупателей: {unique.Count} ({sw.ElapsedMilliseconds} мс)");
